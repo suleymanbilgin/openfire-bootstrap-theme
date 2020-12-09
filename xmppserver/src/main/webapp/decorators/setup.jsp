@@ -106,45 +106,124 @@
     <title><fmt:message key="title"/> <fmt:message key="setup.title"/>: <decorator:title/></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/fontawesome.min.css"
-          type="text/css">
     <link rel="stylesheet" href="../style/sticky_footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          type="text/css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
+    <link rel="manifest" href="../files/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
-    <script language="JavaScript" type="text/javascript" src="../js/prototype.js"></script>
-    <script language="JavaScript" type="text/javascript" src="../js/scriptaculous.js"></script>
-    <script language="JavaScript" type="text/javascript" src="../js/lightbox.js"></script>
-    <script language="javascript" type="text/javascript" src="../js/tooltips/domLib.js"></script>
-    <script language="javascript" type="text/javascript" src="../js/tooltips/domTT.js"></script>
-    <script language="javascript" type="text/javascript" src="../js/setup.js"></script>
+    <script type="text/javascript" src="../js/prototype.js"></script>
+    <script type="text/javascript" src="../js/scriptaculous.js"></script>
+    <!--<script language="JavaScript" type="text/javascript" src="../js/lightbox.js"></script> -->
+    <script type="text/javascript" src="../js/tooltips/domLib.js"></script>
+    <script type="text/javascript" src="../js/tooltips/domTT.js"></script>
+    <script type="text/javascript" src="../js/setup.js"></script>
     <decorator:head/>
 </head>
 
 <body onload="<decorator:getProperty property="body.onload" />">
-<div class="container">
-    <header>
-        <div class="header">
-            <div class="container">
-                <nav class="navbar navbar-light">
-                    <a class="navbar-brand" href="#">
-                        <img src="/images/siper.svg" width="30" height="30" class="d-inline-block align-top" alt=""
-                             loading="lazy">
-                        Siper
-                    </a>
-                </nav>
+
+<!-- BEGIN jive-main -->
+<header>
+    <div class="header">
+        <div class="container">
+            <nav class="navbar navbar-light">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/siper.svg" width="30" height="30" class="d-inline-block align-top" alt=""
+                         loading="lazy">
+                    Siper
+                </a>
+            </nav>
+        </div>
+    </div>
+</header>
+<main>
+    <div class="container">
+
+
+            <%  if (showSidebar) {
+            String[] names;
+            String[] links;
+            if (showPreloginSidebar) {
+                names = new String[] {
+                    LocaleUtils.getLocalizedString((String) session.getAttribute("prelogin.setup.sidebar.title"))
+                };
+                links = new String[] {
+                    (String) session.getAttribute("prelogin.setup.sidebar.link")
+                };
+            } else {
+                names = new String[] {
+                    LocaleUtils.getLocalizedString("setup.sidebar.language"),
+                    LocaleUtils.getLocalizedString("setup.sidebar.settings"),
+                    LocaleUtils.getLocalizedString("setup.sidebar.datasource"),
+                    LocaleUtils.getLocalizedString("setup.sidebar.profile"),
+                    LocaleUtils.getLocalizedString("setup.sidebar.admin")
+                };
+                links = new String[] {
+                    "index.jsp",
+                    "setup-host-settings.jsp",
+                    "setup-datasource-settings.jsp",
+                    "setup-profile-settings.jsp",
+                    "setup-admin-settings.jsp"
+                };
+            }
+        %>
+
+
+            <%  if (!showPreloginSidebar) { %>
+        <br/>
+        <div class="row">
+            <div class="col-12">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: <%= currentStep*20 %>%"
+                         aria-valuenow="<%= currentStep*20 %>" aria-valuemin="0"
+                         aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
-    </header>
-    <main>
-        <div class="container">
-            <br />
-            <decorator:body/>
+        <br/>
+            <%  } %>
+        <div class="row">
+            <div class="col-3">
+                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                        <% for (int i = 0; i < names.length; i++) { %>
+                        <% if (currentStep != i) { %>
+                            <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="<%= links[i] %>" role="tab"
+                               aria-controls="v-pills-home" aria-selected="true"><%= names[i] %>
+                            </a>
+                        <% } else { %>
+                            <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill"
+                               href="<%= links[i] %>" role="tab" aria-controls="v-pills-profile"
+                               aria-selected="false"><%= names[i] %>
+                            </a>
+                        <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+            <% } %>
+            <div class="col-9">
+                <div class="tab-content" id="v-pills-tabContent">
+                <div class="shadow-lg p-3 mb-5 bg-white rounded">
+                    <decorator:body/>
+                </div>
+                </div>
+            </div>
         </div>
-    </main>
-    <footer class="footer">
-        <div class="container text-center">
-            <span class="text-muted">Açık Deniz Bilişim A.Ş.</span>
-        </div>
-    </footer>
-</div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container text-center">
+        <span class="text-muted">Açık Deniz Bilişim A.Ş.</span>
+    </div>
+</footer>
 </body>
 </html>

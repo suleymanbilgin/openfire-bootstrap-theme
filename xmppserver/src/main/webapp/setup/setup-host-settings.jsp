@@ -190,9 +190,10 @@
 <form action="setup-host-settings.jsp" name="f" method="post">
     <input type="hidden" name="csrf" value="${csrf}">
 
-    <div class="form-group">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" size="30" maxlength="150" name="domain" id="domain"
+               value="${not empty domain ? fn:escapeXml(domain) : ''}">
         <label for="domain"><fmt:message key="setup.host.settings.domain"/></label>
-        <input  class="form-control" type="text" size="30" maxlength="150" name="domain" id="domain" value="${not empty domain ? fn:escapeXml(domain) : ''}">
         <c:if test="${not empty errors['domain']}">
             <span class="jive-error-text">
             <fmt:message key="setup.host.settings.invalid_domain"/>
@@ -200,87 +201,81 @@
         </c:if>
     </div>
 
-
-    <div class="form-group">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" size="30" maxlength="150" name="fqdn" id="fqdn"
+               value="${not empty fqdn ? fn:escapeXml(fqdn) : ''}">
         <label for="fqdn"><fmt:message key="setup.host.settings.fqdn"/></label>
-        <input class="form-control" type="text" size="30" maxlength="150" name="fqdn" id="fqdn"
-               value="${not empty fqdn ? fn:escapeXml(fqdn) : ''}">        <c:if test="${not empty errors['domain']}">
+        <c:if test="${not empty errors['domain']}">
             <span class="jive-error-text">
-            <fmt:message key="setup.host.settings.invalid_fqdn"/>
+            <fmt:message key="setup.host.settings.invalid_domain"/>
+            </span>
+        </c:if>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" class="form-control" min="1" max="65535" size="6" maxlength="6" name="embeddedPort"
+               id="embeddedPort" value="${not empty embeddedPort ? embeddedPort : 9090}">
+        <label for="embeddedPort"><fmt:message key="setup.host.settings.port"/></label>
+        <c:if test="${not empty errors['embeddedPort']}">
+            <span class="jive-error-text">
+            <fmt:message key="setup.host.settings.invalid_port"/>
+            </span>
+        </c:if>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input type="number" class="form-control" min="1" max="65535" size="6" maxlength="6" name="securePort"
+               id="securePort" value="${not empty securePort ? securePort : 9091}">
+        <label for="securePort"><fmt:message key="setup.host.settings.secure_port"/></label>
+        <c:if test="${not empty errors['securePort']}">
+            <span class="jive-error-text">
+            <fmt:message key="setup.host.settings.invalid_port"/>
             </span>
         </c:if>
     </div>
 
 
-        <c:if test="${xmppServer.standAlone}">
-            <tr valign="top">
-                <td width="1%" nowrap align="right">
-                    <label for="embeddedPort"><fmt:message key="setup.host.settings.port"/></label>
-                </td>
-                <td width="99%">
-                    <input type="number" min="1" max="65535" size="6" maxlength="6" name="embeddedPort"
-                           id="embeddedPort" value="${not empty embeddedPort ? embeddedPort : 9090}">
-                    <span class="jive-setup-helpicon" onmouseover="domTT_activate(this, event, 'content', '<fmt:message
-                        key="setup.host.settings.port_number"/>', 'styleClass', 'jiveTooltip', 'trail', true, 'delay', 300, 'lifetime', 8000);"></span>
-                    <c:if test="${not empty errors['embeddedPort']}">
-            <span class="jive-error-text">
-            <fmt:message key="setup.host.settings.invalid_port"/>
-            </span>
-                    </c:if>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="1%" nowrap align="right">
-                    <label for="securePort"><fmt:message key="setup.host.settings.secure_port"/></label>
-                </td>
-                <td width="99%">
-                    <input type="number" min="1" max="65535" size="6" maxlength="6" name="securePort" id="securePort"
-                           value="${not empty securePort ? securePort : 9091}">
-                    <span class="jive-setup-helpicon" onmouseover="domTT_activate(this, event, 'content', '<fmt:message
-                        key="setup.host.settings.secure_port_number"/>', 'styleClass', 'jiveTooltip', 'trail', true, 'delay', 300, 'lifetime', 8000);"></span>
-                    <c:if test="${not empty errors['securePort']}">
-            <span class="jive-error-text">
-            <fmt:message key="setup.host.settings.invalid_port"/>
-            </span>
-                    </c:if>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="1%" nowrap align="right">
-                    <fmt:message key="setup.host.settings.encryption_algorithm"/>
-                </td>
-                <td width="99%">
-                    <span class="jive-setup-helpicon" onmouseover="domTT_activate(this, event, 'content', '<fmt:message
-                        key="setup.host.settings.encryption_algorithm_info"/>', 'styleClass', 'jiveTooltip', 'trail', true, 'delay', 300, 'lifetime', 8000);"></span><br/><br/>
-                    <input type="radio" name="encryptionAlgorithm" value="Blowfish" id="Blowfish" checked><label
-                    for="Blowfish"><fmt:message key="setup.host.settings.encryption_blowfish"/></label><br/><br/>
-                    <input type="radio" name="encryptionAlgorithm" value="AES" id="AES"><label for="AES"><fmt:message
-                    key="setup.host.settings.encryption_aes"/></label><br/><br/>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="1%" nowrap align="right">
-                    <label for="encryptionKey"><fmt:message key="setup.host.settings.encryption_key"/></label>
-                </td>
-                <td width="99%">
-                    <input type="password" size="50" name="encryptionKey" id="encryptionKey"/><br/><br/>
-                    <input type="password" size="50" name="encryptionKey1" id="encryptionKey1"/>
-                    <span class="jive-setup-helpicon" onmouseover="domTT_activate(this, event, 'content', '<fmt:message
-                        key="setup.host.settings.encryption_key_info"/>', 'styleClass', 'jiveTooltip', 'trail', true, 'delay', 300, 'lifetime', 8000);"></span>
-                    <c:if test="${not empty errors['encryptionKey']}">
-            <span class="jive-error-text">
-            <fmt:message key="setup.host.settings.encryption_key_invalid"/>
-            </span>
-                    </c:if>
-                </td>
-            </tr>
-        </c:if>
-    </table>
+    <c:if test="${xmppServer.standAlone}">
 
-    <br><br>
+        <div class="mb-3">
+            <label for="Blowfish" class="form-label"><fmt:message
+                key="setup.host.settings.encryption_algorithm"/></label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="encryptionAlgorithm"
+                       id="Blowfish" value="Blowfish" checked>
+                <label class="form-check-label" for="Blowfish">
+                    <fmt:message key="setup.host.settings.encryption_blowfish"/>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="encryptionAlgorithm"
+                       id="AES" value="AES">
+                <label class="form-check-label" for="AES">
+                    <fmt:message
+                        key="setup.host.settings.encryption_aes"/>
+                </label>
+            </div>
+        </div>
 
-    <button type="Submit" name="save" id="jive-setup-save" class="btn btn-primary btn-lg btn-block">
-        <fmt:message key="global.continue"/></button>
+        <div class="mb-3">
+            <label for="encryptionKey" class="form-label"><fmt:message key="setup.host.settings.encryption_key"/></label>
+            <input type="password" class="form-control" name="encryptionKey" id="encryptionKey" placeholder="">
+            <input type="password" class="form-control" name="encryptionKey1" id="encryptionKey1" placeholder="">
+            <c:if test="${not empty errors['encryptionKey']}">
+                <span class="jive-error-text">
+                    <fmt:message key="setup.host.settings.encryption_key_invalid"/>
+                </span>
+            </c:if>
+        </div>
+
+    </c:if>
+
+    <br/><br/>
+
+    <div class="d-grid gap-2">
+        <button type="Submit" name="save" class="btn btn-primary" id="jive-setup-save"><fmt:message
+            key="global.continue"/></button>
+    </div>
 
 </form>
 

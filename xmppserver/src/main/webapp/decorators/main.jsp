@@ -62,6 +62,15 @@
         <link rel="stylesheet" href="style/framework/css/bootstrap.min.css" type="text/css">
         <link rel="stylesheet" href="style/framework/css/font-awesome.min.css" type="text/css">
         <link rel="stylesheet" type="text/css" href="<%= path %>/style/global.css">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="../images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../images/favicon-16x16.png">
+        <link rel="manifest" href="../files/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+
+
         <script language="JavaScript" type="text/javascript" src="<%= path %>/js/prototype.js"></script>
         <script language="JavaScript" type="text/javascript" src="<%= path %>/js/scriptaculous.js"></script>
         <script language="JavaScript" type="text/javascript" src="<%= path %>/js/cookies.js"></script>
