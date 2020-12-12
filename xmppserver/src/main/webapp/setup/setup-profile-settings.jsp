@@ -129,8 +129,10 @@
 </table>
 
 <br>
-        <div align="right">
-            <input type="Submit" name="continue" value="<fmt:message key="global.continue" />" id="jive-setup-save" border="0">
+        <div class="d-grid gap-2">
+            <button type="Submit" name="continue" class="btn btn-primary" id="jive-setup-save">
+                <fmt:message key="global.continue"/>
+            </button>
         </div>
 
     </form>

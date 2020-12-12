@@ -67,14 +67,14 @@
 %>
 
 <html>
-    <head>
-        <title><fmt:message key="setup.finished.title" /></title>
-        <meta name="currentStep" content="5"/>
-        <script type="text/javascript">
+<head>
+    <title><fmt:message key="setup.finished.title"/></title>
+    <meta name="currentStep" content="5"/>
+    <script type="text/javascript">
 
-        function showhide(id){
+        function showhide(id) {
             let obj = document.getElementById(id);
-            if (obj.style.display === "none"){
+            if (obj.style.display === "none") {
                 obj.style.display = "";
             } else {
                 obj.style.display = "none";
@@ -85,27 +85,26 @@
             showhide('loginlink');
             showhide('logintext');
         }
-        </script>
-    </head>
+    </script>
+</head>
 <body onload="setTimeout(toggleDivs, 1500);">
 
-    <h1>
-    <fmt:message key="setup.finished.title" />
-    </h1>
+<h1>
+    <fmt:message key="setup.finished.title"/>
+</h1>
 
-    <p>
+<p>
     <fmt:message key="setup.finished.info">
-        <fmt:param value="${localizedTitle}" />
+        <fmt:param value="${localizedTitle}"/>
     </fmt:message>
-    </p>
+</p>
 
 <%
     boolean useAdmin = false;
     try {
         List<JID> authorizedJIDS = AdminManager.getInstance().getAdminAccounts();
         useAdmin = authorizedJIDS == null || authorizedJIDS.isEmpty();
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
         // We were not able to load the list of admins right now, so move on.
     }
     String parameters = useAdmin ? "?username=admin" : "";
@@ -119,32 +118,36 @@
         // Use secure login if we're currently secure (and the secure port isn't disabled)
         // or if the user disabled the plain port.
         if ((request.isSecure() && securePort > 0) || plainPort < 0) {
-            url = "https://" + server + ":" + securePort + "/login.jsp"+parameters;
+            url = "https://" + server + ":" + securePort + "/login.jsp" + parameters;
+        } else {
+            url = "http://" + server + ":" + plainPort + "/login.jsp" + parameters;
         }
-        else {
-            url = "http://" + server + ":" + plainPort + "/login.jsp"+parameters;
-        }
-    }
-    else {
+    } else {
         url = request.getRequestURL().toString();
-        url = url.replace("setup/setup-finished.jsp", "login.jsp"+parameters);
+        url = url.replace("setup/setup-finished.jsp", "login.jsp" + parameters);
     }
 %>
-    <br><br>
-    <c:choose>
-        <c:when test="${empty errorMessage}">
-            <div id="loginlink" style="display:none;" class="jive_setup_launchAdmin">
-                <a href="<%= url %>"><fmt:message key="setup.finished.login" /></a>
+<br><br>
+<c:choose>
+    <c:when test="${empty errorMessage}">
+        <div id="loginlink" style="display:none;" class="jive_setup_launchAdmin">
+            <a href="<%= url %>">
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-primary"><fmt:message key="setup.finished.login"/></button>
+                </div>
+            </a>
+        </div>
+        <div id="logintext" class="jive_setup_launchAdmin">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                     aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
             </div>
-
-            <div id="logintext" class="jive_setup_launchAdmin">
-                <fmt:message key="setup.finished.wait" /> <img src="../images/working-16x16.gif" alt="<fmt:message key="setup.finished.wait" />" width="16" height="16">
-            </div>
-        </c:when>
-        <c:otherwise>
-            <div class="alert alert-danger" role="alert"><c:out value="${errorMessage}"/></div>
-        </c:otherwise>
-    </c:choose>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <div class="alert alert-danger" role="alert"><c:out value="${errorMessage}"/></div>
+    </c:otherwise>
+</c:choose>
 
 </body>
 </html>

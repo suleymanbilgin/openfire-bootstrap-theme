@@ -453,10 +453,17 @@ function checkClick() {
 </table>
 
 <br>
-        <div align="right">
-            <input type="submit" name="continue" value="<fmt:message key="global.continue" />" id="jive-setup-save" border="0">
-            <input type="submit" name="doSkip" value="<fmt:message key="setup.admin.settings.skip_this_step" />" id="jive-setup-skip" border="0">
-        </div>
+    <div class="d-grid gap-2">
+        <button type="Submit" name="continue" class="btn btn-primary" id="jive-setup-save">
+            <fmt:message key="global.continue"/>
+        </button>
+    </div>
+    <br />
+    <div class="d-grid gap-2">
+        <button type="Submit" name="doSkip" class="btn btn-primary" id="jive-setup-skip">
+            <fmt:message key="setup.admin.settings.skip_this_step"/>
+        </button>
+    </div>
 
     </form>
     </div>
